@@ -1,18 +1,17 @@
 name: Semgrep Scan
-
+ 
 on: [push, pull_request]
-
+ 
 jobs:
   semgrep:
     runs-on: ubuntu-22.04
-
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Run Semgrep
-        uses: returntocorp/semgrep-action@v1
-        with:
-          config: custom-rules.yml
+      - name: Checkout code
+        uses: actions/checkout@v2'
+ 
+      - name: Run Semgrep with Default and Custom Rules
+        run: |
+          semgrep --config p/default --config custom-rules.yml
 
       - name: Save Semgrep Output
         run: |
