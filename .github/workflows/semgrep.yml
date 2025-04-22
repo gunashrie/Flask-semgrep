@@ -22,8 +22,11 @@ jobs:
         run: |
           base64 semgrep_output.json > semgrep_output_encoded.txt
 
-      - name: Upload Encoded Semgrep Output
-        uses: actions/upload-artifact@v2.2.4
-        with:
-          name: semgrep-output-encoded
-          path: semgrep_output_encoded.txt
+      - name: Commit and Push Encoded Output
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add semgrep_output_encoded.txt
+          git commit -m 'Add encoded Semgrep output'
+          git push
+
