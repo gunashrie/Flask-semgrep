@@ -1,20 +1,31 @@
 name: Semgrep Scan
+
 on: [push, pull_request]
+
 jobs:
   semgrep:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
+
       - name: Run Semgrep
         uses: returntocorp/semgrep-action@v1
         with:
           config: custom-rules.yml
+
       - name: Save Semgrep Output
         run: |
           semgrep --config custom-rules.yml --json > semgrep_output.json
+
       - name: Encode Semgrep Output
         run: |
           base64 semgrep_output.json > semgrep_output_encoded.txt
+
+      - name: Clear GitHub Actions cache
+        run: |
+          sudo rm -rf /home/runner/work/_actions
+
       - name: Upload Encoded Semgrep Output
         uses: actions/upload-artifact@v2
         with:
