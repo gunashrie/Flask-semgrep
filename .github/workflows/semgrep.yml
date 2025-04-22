@@ -9,12 +9,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Run Semgrep
-        uses: returntocorp/semgrep-action@v1
-        with:
-          config: custom-rules.yml
+      - name: Install Semgrep
+        run: |
+          pip install semgrep
 
-      - name: Save Semgrep Output
+      - name: Run Semgrep
         run: |
           semgrep --config custom-rules.yml --json > semgrep_output.json
 
@@ -29,4 +28,5 @@ jobs:
           git add semgrep_output_encoded.txt
           git commit -m 'Add encoded Semgrep output'
           git push
+
 
