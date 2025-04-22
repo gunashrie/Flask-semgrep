@@ -23,7 +23,7 @@ jobs:
           base64 semgrep_output.json > semgrep_output_encoded.txt
 
       - name: Upload Encoded Semgrep Output
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2.2.4
         with:
           name: semgrep-output-encoded
           path: semgrep_output_encoded.txt
