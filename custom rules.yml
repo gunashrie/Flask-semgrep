@@ -1,0 +1,15 @@
+rules:
+  - id: flask-xss
+    patterns:
+      - pattern: |
+          return f"<html>{$X}</html>"
+    message: "Potential XSS vulnerability detected"
+    languages: [python]
+    severity: ERROR
+
+  - id: flask-hardcoded-secret
+    patterns:
+      - pattern: $SECRET = "..."
+    message: "Hardcoded secret detected"
+    languages: [python]
+    severity: ERROR
