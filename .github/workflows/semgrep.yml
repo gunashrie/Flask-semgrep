@@ -21,19 +21,32 @@ jobs:
 
       - name: Run Semgrep
         run: |
+          # Print debugging information
+          echo "Running Semgrep with the following configurations:"
+          echo "Default config: p/default"
+          echo "Custom rules config: custom-rules.yml"
+
           # Run Semgrep with custom rules and disable metrics
-          semgrep_output=$(semgrep --config p/default --config custom-rules.yml)
-            
-          
+          semgrep_output=$(semgrep --config p/default --config custom-rules.yml --json --metrics=off)
+
           # Check if Semgrep ran successfully
           if [ $? -ne 0 ]; then
             echo "Semgrep encountered an error."
+            echo "Semgrep output:"
+            echo "$semgrep_output"
             exit 1
           fi
 
           # Print Semgrep output
           echo "$semgrep_output"
 
+          # METRICS: Using configs from the Registry (like --config=p/ci) reports pseudonymous rule metrics to semgrep.dev.
+          # To disable Registry rule metrics, use "--metrics=off".
+          # Using configs only from local files (like --config=xyz.yml) does not enable metrics.
+          # More information: https://semgrep.dev/docs/metrics
+
+          # ERROR REPORTING: To disable error reporting, ensure your custom rules do not include any error reporting configurations.
+          # Semgrep does not have a specific flag to disable error reporting, but you can manage errors by handling them appropriately in your custom rules.
 
       - name: Encode Semgrep Output
         run: |
@@ -46,6 +59,7 @@ jobs:
           git add semgrep_output_encoded.txt
           git commit -m 'Add encoded Semgrep output'
           git push
+
 
 
 
