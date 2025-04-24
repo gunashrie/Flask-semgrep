@@ -22,7 +22,7 @@ jobs:
       - name: Run Semgrep
         run: |
           # Run Semgrep with custom rules and disable metrics
-          semgrep_output=$(semgrep --config p/default --config custom-rules.yml --json --metrics=off)
+          semgrep_output=$(semgrep --config p/default --config custom-rules.yml)
             
           
           # Check if Semgrep ran successfully
