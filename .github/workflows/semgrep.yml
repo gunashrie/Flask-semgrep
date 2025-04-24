@@ -21,7 +21,7 @@ jobs:
 
       - name: Run Semgrep
         run: |
-          semgrep --config custom-rules.yml --json --metrics=off > semgrep_output.json
+          semgrep --config custom-rules.yml --json  "--metrics=off" > semgrep_output.json
 
       - name: Encode Semgrep Output
         run: |
